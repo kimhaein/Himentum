@@ -1,0 +1,59 @@
+body {
+  display: flex;
+  width:100%;
+  height: 100vh;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.backgrund {
+  display: flex;
+  flex:1;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url("../image/bg/gabriele-diwald-Kwi60PbAM9I-unsplash.jpg");
+  background-size: cover;
+}
+
+/* .backgrund::after {
+  content: '';
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+} */
+
+.weatherContainer {
+  position: fixed;
+  top:0;
+  right:0;
+}
+
+.dateContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Do Hyeon', sans-serif;
+}
+.dateContainer .date{
+  font-size: 40px;
+}
+.dateContainer .time{
+  /* font-family: 'Do Hyeon', sans-serif; */
+  font-size: 160px;
+  letter-spacing: 6px;
+  color:#ffffff;
+}
+
+.geography {
+  position: fixed;
+  bottom:0;
+  left:0;
+}
+.copyright {
+  position: fixed;
+  bottom:0;
+  right:0;
+}
