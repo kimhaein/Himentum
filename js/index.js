@@ -1,9 +1,11 @@
 class Himentum {
   constructor(apiKey) {
-    this.apiKey = apiKey
+    this.wheatherApiKey = apiKey.OPEN_WEATHER_API_KEY
+    this.imageApiKey = apiKey.UNSPLASH_ACCESS_KEY
     this.datetime = new Date()
     this.geolocation = {}
     this.weater = {}
+    this.background = document.getElementsByClassName('backgrund')
     this.init()
   }
 
@@ -16,7 +18,7 @@ class Himentum {
   }
 
   fetchGeolocationApi(){
-    const query = `lat=${this.geolocation.lat}&lon=${this.geolocation.lon}&appid=${this.apiKey}&units=metric`
+    const query = `lat=${this.geolocation.lat}&lon=${this.geolocation.lon}&appid=${this.wheatherApiKey}&units=metric`
     fetch(`http://api.openweathermap.org/data/2.5/weather?${query}`)
       .then((response) => {
         return response.json()
@@ -25,17 +27,18 @@ class Himentum {
         this.geolocation = {...this.geolocation, name:data.name}
         this.weater = {
           temp:data.main.temp,
-          weather:data.weather[0].main,
+          weatherType:data.weather[0].main,
           weatherIcon:data.weather[0].icon
         }
+        this.fetchBackgroundImage(data.weather[0].main)
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
   }
 
   getGeolocation(){
     navigator.geolocation.getCurrentPosition(
       (postion) => this.sucessGeolocation(postion),
-      () => alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
+      () => console.log("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
     )
   }
 
@@ -43,6 +46,16 @@ class Himentum {
     const hour = datetime.getHours();
     const min = datetime.getMinutes();
     return `${hour}:${( min < 10)? `0${min}`: min}`
+  }
+
+  fetchBackgroundImage(keyword) {
+    const query = `client_id=${this.imageApiKey}&query=weather-${keyword}&per_page=1`
+    fetch(`https://api.unsplash.com/search/photos?${query}`)
+      .then((response) => response.json())
+      .then((data) => { 
+        this.background[0].style.backgroundImage = `url(${data.results[0].urls.regular})`
+      })
+      .catch(err => console.log(err))
   }
 
   init() {
@@ -59,6 +72,10 @@ class Himentum {
 }
 
 (()=>{
-  const himentum = new Himentum(OPEN_WEATHER_API_KEY);
+  const himentum = new Himentum({
+    OPEN_WEATHER_API_KEY,
+    UNSPLASH_ACCESS_KEY,
+    UNSPLASH_SECRET_KEY
+  });
 })()
 
