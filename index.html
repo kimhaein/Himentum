@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- FONT -->
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,400,700,900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,700,900&display=swap" rel="stylesheet">
   <!-- STYLE -->
   <link href="./style/reset.css" rel="stylesheet" type="text/css"/>
   <link href="./style/style.css" rel="stylesheet" type="text/css"/>
@@ -15,11 +15,20 @@
 </head>
 <body>
   <div class="backgrund">
-    <span class="weatherContainer"><img src="./image/icons/10d.png"/></span>
+    <span class="weatherContainer">
+      <p class="temp"></p>
+      <div>
+          <span class="weatherIcon"></span>
+          <span class="weatherType"></span>
+      </div>
+
+    </span>
+    <p class="notice">위치정보를 가져오는 중입니다....</p>
     <div class="dateContainer">
-      <div class="date">2019-05-06</div>
-      <div class="time">10:00</div>
+      <div class="date"></div>
+      <div class="time"></div>
     </div>
+    <span class="hello">HELLO HAEIN</span>
     <div class="goalContainer">
       <ul>
         <li>1</li>
@@ -28,8 +37,8 @@
         <li>4</li>
       </ul>
     </div>
-    <span class="geography">한국</span>
-    <span class="copyright">Photo by Jared Rice on Unsplash</span>
+    <span class="location"></span>
+    <span class="copyright"></span>
   </div>
   <!-- SCRIPT -->
   <script src="./js/config_dev.js" type="text/javascript"></script>
