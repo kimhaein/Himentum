@@ -34,7 +34,7 @@ class Himentum {
 
   fetchGeolocationApi(){
     const query = `lat=${this.geolocation.lat}&lon=${this.geolocation.lon}&appid=${this.wheatherApiKey}&units=metric`
-    fetch(`http://api.openweathermap.org/data/2.5/weather?${query}`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?${query}`)
       .then((response) => {
         return response.json()
       })
