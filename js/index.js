@@ -24,6 +24,7 @@ class Himentum {
     this.init()
   }
 
+  // 위치정보 가져오기 성공
   sucessGeolocation(postion){
     this.geolocation = {
       lat:postion.coords.latitude,
@@ -32,6 +33,7 @@ class Himentum {
     this.fetchGeolocationApi();
   }
 
+  // 날씨정보 api 호출
   fetchGeolocationApi(){
     const query = `lat=${this.geolocation.lat}&lon=${this.geolocation.lon}&appid=${this.wheatherApiKey}&units=metric`
     fetch(`https://api.openweathermap.org/data/2.5/weather?${query}`)
@@ -57,6 +59,7 @@ class Himentum {
       })
   }
 
+  // 위치정보 가져오기
   getGeolocation(){
     navigator.geolocation.getCurrentPosition(
       (postion) => this.sucessGeolocation(postion),
@@ -64,19 +67,21 @@ class Himentum {
     )
   }
 
+  // 날짜 Fomatting
   dateFomatting(datetime) {
     const year = datetime.getFullYear();
     const month = datetime.getMonth()+ 1;
     const day = datetime.getDate();
     return `${year}.${( month < 10)? `0${month}`: month}.${( day < 10)? `0${day}`: day}`
   }
-
+  // 시간 Fomatting
   timeFomatting(datetime) {
     const hour = datetime.getHours();
     const min = datetime.getMinutes();
     return `${hour}:${( min < 10)? `0${min}`: min}`
   }
 
+  // 날씨에 따라 배경이미지 api 호출
   fetchBackgroundImage(keyword) {
     const query = `client_id=${this.imageApiKey}&query=weather-${keyword}&per_page=1`
     fetch(`https://api.unsplash.com/search/photos?${query}`)
@@ -89,6 +94,7 @@ class Himentum {
       .catch(err => console.log(err))
   }
 
+  // 초기 세팅
   init() {
     this.notice.classList.add('display');
     this.date.textContent = this.dateFomatting(this.datetime)
@@ -104,7 +110,7 @@ class Himentum {
       this.todoInput.classList.add('display');
     }
   }
-
+  // 투두리스트 저장
   setTodoList({currentTarget}) {
     this.todoList.push({
       id : ++this.todoLastId ,
@@ -115,6 +121,7 @@ class Himentum {
     this.getTodoList()
   }
 
+  // 투두리스트 가져오기
   getTodoList() {
     const html = this.todoList.map((v,i)=>{
       return `<li><span>${v.todo}</span> <button type="button" class="deleteBtn" data-id="${v.id}">삭제</button></li>`
@@ -122,6 +129,7 @@ class Himentum {
     this.todoListContainer.innerHTML = html.join('')
   }
 
+  // 투두리스트 지우기
   deleteTodoList({target}) {
     const targetId = +target.dataset.id;
     const list = this.todoList.filter((v)=> targetId !== v.id)
@@ -130,16 +138,31 @@ class Himentum {
     this.getTodoList()
   }
 
+  // 유저이름 저장
   setUserName({currentTarget}){
     localStorage.setItem('userName' ,currentTarget.value)
     this.getUserName()
     this.todoInput.classList.add('display');
   }
+
+  // 유저이름 가져오기
   getUserName(){
     const userName = localStorage.getItem('userName')
     this.hello.textContent = `HELLO! ${userName}`;
   }
 
+}
+
+class todoList extends Himentum{
+  constructor(props){
+    console.log(props)
+  }
+}
+
+class UI extends Himentum{
+  constructor(props){
+    console.log(props)
+  }
 }
 
 (()=>{
@@ -157,6 +180,8 @@ class Himentum {
     todoLastId,
     userName,
   );
+
+  // 이벤트 등록
   const nameInput = document.getElementsByClassName('nameInput')[0]
   if(nameInput){
     nameInput.addEventListener("change",(e)=>{
