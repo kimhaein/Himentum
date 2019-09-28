@@ -83,12 +83,13 @@ class Himentum {
 
   // 날씨에 따라 배경이미지 api 호출
   fetchBackgroundImage(keyword) {
-    const query = `client_id=${this.imageApiKey}&query=weather-${keyword}&per_page=1`
+    const query = `client_id=${this.imageApiKey}&query=weather-${keyword}&per_page=10`
     fetch(`https://api.unsplash.com/search/photos?${query}`)
       .then((response) => response.json())
       .then((data) => { 
+        const num = Math.floor(Math.random()*10)
         this.copyright.innerHTML = `<a href="${data.results[0].user.links.html}">Photo by ${data.results[0].user.username} on Unsplash</a>`
-        this.background.style.backgroundImage = `url(${data.results[0].urls.regular})`
+        this.background.style.backgroundImage = `url(${data.results[num].urls.regular})`
         this.notice.classList.remove('display');
       })
       .catch(err => console.log(err))
@@ -159,7 +160,7 @@ class todoList extends Himentum{
   }
 }
 
-class UI extends Himentum{
+class CallApi extends Himentum{
   constructor(props){
     console.log(props)
   }
