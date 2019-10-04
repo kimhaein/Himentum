@@ -38,6 +38,12 @@ a:hover {
   background-size: cover;
 }
 
+.calendarBtn {
+  position: fixed;
+  top:20px;
+  left:20px;
+}
+
 /* .backgrund::after {
   content: '';
   position: fixed;
