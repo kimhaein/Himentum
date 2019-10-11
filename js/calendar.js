@@ -1,12 +1,16 @@
 class Calendar {
   constructor() {
     this.focusMonth = new Date()
+    this.today = new Date()
     this.calendarTitle = ''
     this.dayKr = ['일','월', '화' , '수' ,'목','금','토','일']
 
     this.btnContainer  = document.getElementsByClassName('btnContainer')[0]
+    this.monthCalendar  = document.getElementsByClassName('monthCalendar')[0]
     this.monthCalendarBox  = document.getElementsByClassName('monthCalendarBox')[0]
     this.currentMonth = document.getElementsByClassName('currentMonth')[0]
+    this.prevMonthBtn = document.getElementsByClassName('prevMonthBtn')[0]
+    this.nextMonthBtn = document.getElementsByClassName('nextMonthBtn')[0]
 
     this.init()
   }
@@ -24,37 +28,70 @@ class Calendar {
   // 이전 달 이동
   prevMonth(){
     this.focusMonth = new Date(this.focusMonth.getFullYear(), this.focusMonth.getMonth() - 1, this.focusMonth.getDate());
-    this.renderCalendar()
+    this.renderMonthCalendar()
   }
 
   // 다음 달 이동
   nextMonth(){
     this.focusMonth = new Date(this.focusMonth.getFullYear(), this.focusMonth.getMonth() + 1, this.focusMonth.getDate());
-    this.renderCalendar()
+    this.renderMonthCalendar()
   }
 
   // 달력 그리기
   renderMonthCalendar(){
     const year = this.focusMonth.getFullYear();
-    const month = this.focusMonth.getMonth() + 1;
-    const calendarTitle = `${year}년 ${month}월`
+    const month = this.focusMonth.getMonth();
+    const calendarTitle = `${year}년 ${month +1}월`
     this.currentMonth.textContent = calendarTitle
 
-    // 해당달의 첫날
-    const fristDate = new Date(year, month -1 ,1)
-    const fristDay = fristDate.getDay()
-    // 해당달의 마지막날
-    const lastDate = new Date(year,month,0)
+    // 해당달의 첫날 / 요일
+    const firstDate = new Date(year, month ,1)
+    const firstDay = firstDate.getDay()
+    // 해당달의 마지막날 / 요일
+    const lastDate = new Date(year,month+1,0)
     const lastDay = lastDate.getDay()
 
     // 전달의 마지막날
-    const prevLastDate = new Date(year, month -1 ,0).getDate()
+    let prevLastDate = new Date(year, month ,0).getDate()
+    let prevDate = (prevLastDate - firstDay ) +1
     // 다음달의 첫날
-    const nextFristDate = new Date(year, month +1 ,1).getDate()
+    let nextfirstDate = new Date(year, month +1 ,1).getDate()
 
+    // 이번달 몇주 인지 
+    const days = (firstDay === 0)? 7:firstDay
+    let totleWeek = Math.ceil((days - 1 + lastDate.getDate()) / 7)
+    if(days === 7) totleWeek = totleWeek -1
 
+    let day = 1
+    let html = ''
+    for (let index = 1; index <= totleWeek; index++) {
+      let row =` `
+      html +=`<tr>`
+      for (let i = 1; i <= 7; i++) {
+        // 이번달 첫주는 척요일 부터 시작
+        if((firstDay < i || index > 1) && day <=lastDate.getDate()){
+          // 오늘 날짜 표시
+          if ( this.today.getFullYear() == year && this.today.getMonth() == month && this.today.getDate() == day) {
+            row+= `<td class="today"><p>${day}</p><ul></ul></td>`
+          } else {
+            row+= `<td><p>${day}</p><ul></ul></td>`
+          }
+          day++
+        } else if( index === 1) {
+          row+= `<td class="blur">${prevDate ++}</td>`
+
+        } else if( index === totleWeek) {
+          row+= `<td class="blur">${nextfirstDate ++}</td>`
+        }
+      }
+
+      html += row+ `<tr>`
+    }
+
+    this.monthCalendarBox.innerHTML = html
 
   }
+
 
   onChangeMode({target}) {
     const className = target.className.split(' ')[0]
@@ -84,6 +121,14 @@ class Calendar {
 
   calendar.btnContainer.addEventListener('click',(e)=>{
     calendar.onChangeMode(e)
+  });
+
+  calendar.prevMonthBtn.addEventListener('click',(e)=>{
+    calendar.prevMonth()
+  });
+
+  calendar. nextMonthBtn.addEventListener('click',(e)=>{
+    calendar.nextMonth()
   });
 
 })()

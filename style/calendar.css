@@ -34,7 +34,14 @@ a:hover {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width:100%;
   padding: 60px;
+}
+
+.calendarHeader > span {
+  cursor: pointer;
+  margin: 0 5px;
+  padding: 10px
 }
 
 .currentMonth {
@@ -57,9 +64,7 @@ a:hover {
 }
 
 .calendar {
-  width:100%;  
   margin-bottom: 20px;
-  table-layout: fixed;
 }
 .calendar .red {
   color:red
@@ -89,6 +94,21 @@ a:hover {
 .calendar tbody tr td {
   padding:10px;
   border:1px solid black
+}
+
+.calendar tbody tr td:first-child {
+  color:red
+}
+
+.calendar tbody tr td:last-child {
+  color:blue
+}
+
+td.today {
+  background: yellow;
+}
+td.blur {
+  opacity: 0.3;
 }
 
 .monthCalendar {
